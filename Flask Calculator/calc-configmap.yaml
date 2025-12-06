@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: calc-config
+data:
+  SECRET_KEY: "replace-with-secure-secret"   # update or override via kubectl create secret if you want
+  LOG_LEVEL: "INFO"
+  FLASK_DEBUG: "0"

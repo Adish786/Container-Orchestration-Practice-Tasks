@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: calc-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: calc.local.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: calc-service
+                port:
+                  number: 80

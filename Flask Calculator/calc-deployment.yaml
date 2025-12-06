@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calc-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: calc-app
+  template:
+    metadata:
+      labels:
+        app: calc-app
+    spec:
+      containers:
+        - name: calc-app
+          image: calc-app:latest    # build into minikube's docker or push to registry and replace
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: calc-config
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - name: calc-data
+              mountPath: /data
+      volumes:
+        - name: calc-data
+          persistentVolumeClaim:
+            claimName: calc-data-pvc

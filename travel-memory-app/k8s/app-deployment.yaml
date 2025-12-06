@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: travel-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: travel-app
+  template:
+    metadata:
+      labels:
+        app: travel-app
+    spec:
+      containers:
+        - name: travel-app
+          image: travel-memory-app
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: travel-config
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
