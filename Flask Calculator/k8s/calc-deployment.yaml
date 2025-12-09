@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: calc-app
-          image: calc-app:latest    # build into minikube's docker or push to registry and replace
+          image: adish786/calc-app:latest    # build into minikube's docker or push to registry and replace
           ports:
             - containerPort: 5000
           envFrom:
